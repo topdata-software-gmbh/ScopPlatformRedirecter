@@ -90,6 +90,17 @@
             <argument type="service" id="Shopware\Core\Framework\Store\InAppPurchase"/>
             <tag name="messenger.message_handler"/>
         </service>
+
+
+        <service id="Scop\PlatformRedirecter\Command\ImportRedirectCommand">
+            <argument type="service" id="Shopware\Core\Content\ImportExport\Service\ImportExportService"/>
+            <argument type="service" id="Shopware\Core\Content\ImportExport\ImportExportFactory"/>
+            <argument type="service" id="import_export_profile.repository"/>
+            <tag name="console.command"/>
+        </service>
+
+
+
     </services>
 
 </container>
