@@ -62,6 +62,12 @@ class LowercaseUrlSubscriber implements EventSubscriberInterface
             return;
         }
 
+        $requestPath = rtrim(ltrim($path, '/'), '/');
+        $foundPath = rtrim($found, '/');
+        if ($requestPath === $foundPath) {
+            return;
+        }
+
         $newUrl = $request->getSchemeAndHttpHost() . $request->getBaseUrl() . '/' . ltrim($found, '/');
 
         if ($queryString) {
