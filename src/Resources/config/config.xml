@@ -41,4 +41,18 @@
         </component>
     </card>
 
+    <card>
+        <title>URL Normalization</title>
+        <title lang="de-DE">URL-Normalisierung</title>
+
+        <input-field type="bool">
+            <name>lowercaseUrlRedirect</name>
+            <label>Redirect uppercase URLs to lowercase</label>
+            <label lang="de-DE">Grossbuchstaben-URLs auf Kleinbuchstaben umleiten</label>
+            <description>When enabled, URLs with uppercase letters are automatically redirected to their lowercase version (301) if a matching SEO URL exists.</description>
+            <description lang="de-DE">Wenn aktiviert, werden URLs mit Grossbuchstaben automatisch auf die Kleinbuchstaben-Version weitergeleitet (301), falls eine passende SEO-URL existiert.</description>
+            <defaultValue>true</defaultValue>
+        </input-field>
+    </card>
+
 </config>
