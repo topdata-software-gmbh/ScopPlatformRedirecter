@@ -72,8 +72,8 @@
             <name>regexFallbackPattern</name>
             <label>Regex pattern</label>
             <label lang="de-DE">Regex-Muster</label>
-            <description>The regex pattern applied to the request path. Use capture groups for replacements. Example: ^\\/p\\/[^\\/]+\\/(\\d+)p\\/?$</description>
-            <description lang="de-DE">Das Regex-Muster wird auf den Anfragepfad angewendet. Verwenden Sie Capture-Gruppen für Ersetzungen. Beispiel: ^\\/p\\/[^\\/]+\\/(\\d+)p\\/?$</description>
+            <description>The regex pattern applied to the request path. Use capture groups for replacements. The first capture group (\\d+) is used for the SEO lookup feature. Example for iShop URLs: ^\\/p\\/[^\\/]+\\/(\\d+)p\\/?$ captures "1503" from "/p/permafix-abdeckfolien-transparent-270-cm-x-17-m/1503p/"</description>
+            <description lang="de-DE">Das Regex-Muster wird auf den Anfragepfad angewendet. Verwenden Sie Capture-Gruppen für Ersetzungen. Die erste Capture-Gruppe (\\d+) wird für die SEO-Suche verwendet. Beispiel für iShop-URLs: ^\\/p\\/[^\\/]+\\/(\\d+)p\\/?$ erfasst "1503" aus "/p/permafix-abdeckfolien-transparent-270-cm-x-17-m/1503p/"</description>
             <defaultValue></defaultValue>
         </input-field>
 
@@ -81,8 +81,8 @@
             <name>regexFallbackReplacement</name>
             <label>Replacement pattern</label>
             <label lang="de-DE">Ersetzungsmuster</label>
-            <description>The replacement string using $1, $2, etc. from capture groups. Example: /detail/$1</description>
-            <description lang="de-DE">Die Ersetzungszeichenfolge mit $1, $2, etc. aus den Capture-Gruppen. Beispiel: /detail/$1</description>
+            <description>The replacement string using $1, $2, etc. from capture groups. Used only when "Look up product SEO URL" is disabled. Example: /detail/$1 redirects to /detail/1503. When SEO lookup is enabled, this field is ignored.</description>
+            <description lang="de-DE">Die Ersetzungszeichenfolge mit $1, $2, etc. aus den Capture-Gruppen. Wird nur verwendet, wenn "Produkt-SEO-URL suchen" deaktiviert ist. Beispiel: /detail/$1 leitet auf /detail/1503 weiter. Wenn die SEO-Suche aktiviert ist, wird dieses Feld ignoriert.</description>
             <defaultValue></defaultValue>
         </input-field>
 
@@ -109,8 +109,8 @@
             <name>regexFallbackUseSeoLookup</name>
             <label>Look up product SEO URL</label>
             <label lang="de-DE">Produkt-SEO-URL suchen</label>
-            <description>When enabled, the captured value from the regex is treated as a product number. The plugin looks up the product and redirects to its canonical SEO URL. The replacement pattern is ignored when this is active.</description>
-            <description lang="de-DE">Wenn aktiviert, wird der erfasste Wert aus dem Regex als Produktnummer behandelt. Das Plugin sucht das Produkt und leitet auf dessen kanonische SEO-URL weiter. Das Ersetzungsmuster wird bei aktiver Option ignoriert.</description>
+            <description>When enabled, the captured value from capture group 1 is treated as a product number (SKU). The plugin looks up the product in the database and redirects to its current canonical SEO URL. This is useful for iShop URLs like /p/any-product-name/1503p/ — it extracts "1503", finds the product, and redirects to /correct-product-name/1503. The replacement pattern is ignored when this is active.</description>
+            <description lang="de-DE">Wenn aktiviert, wird der Wert aus Capture-Gruppe 1 als Produktnummer (SKU) behandelt. Das Plugin sucht das Produkt in der Datenbank und leitet auf die aktuelle kanonische SEO-URL weiter. Nützlich für iShop-URLs wie /p/irgendein-produktname/1503p/ — es extrahiert "1503", findet das Produkt und leitet auf /korrekter-produktname/1503 weiter. Das Ersetzungsmuster wird bei aktiver Option ignoriert.</description>
             <defaultValue>false</defaultValue>
         </input-field>
     </card>
