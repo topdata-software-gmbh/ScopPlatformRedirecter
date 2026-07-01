@@ -62,3 +62,33 @@
 
 * manage redirects in the administration
 * redirect to the target in frontend
+
+## Regex Fallback Configuration
+
+The plugin can fall back to a regex-based redirect when no exact redirect is found in the database. This is useful for handling legacy URL patterns that follow a predictable structure.
+
+### Basic Usage (Direct Path Replacement)
+
+Enable in **Settings → System → Plugins → ScopPlatformRedirecter → Regex Fallback**:
+
+| Field | Value |
+|-------|-------|
+| `regexFallbackEnabled` | `true` |
+| `regexFallbackPattern` | `^/old-prefix/[^/]+/(\d+)suffix/?$` |
+| `regexFallbackReplacement` | `/detail/$1` |
+| `regexFallbackHttpCode` | `301` |
+
+This matches URLs like `/old-prefix/any-name/123suffix/` and redirects to `/detail/123`.
+
+### Advanced Usage (Product SEO URL Lookup)
+
+When the captured value is a product number, enable SEO lookup to redirect directly to the product's canonical URL:
+
+| Field | Value |
+|-------|-------|
+| `regexFallbackEnabled` | `true` |
+| `regexFallbackPattern` | `^/old-prefix/[^/]+/(\d+)suffix/?$` |
+| `regexFallbackHttpCode` | `301` |
+| `regexFallbackUseSeoLookup` | `true` |
+
+The plugin extracts the product number from the first capture group `(\d+)`, looks up the product in the database, and redirects to the product's current SEO URL (e.g., `/product-name/123`). The `regexFallbackReplacement` field is ignored when SEO lookup is enabled.

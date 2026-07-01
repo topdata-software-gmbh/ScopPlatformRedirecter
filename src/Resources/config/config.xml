@@ -104,6 +104,15 @@
                 </option>
             </options>
         </input-field>
+
+        <input-field type="bool">
+            <name>regexFallbackUseSeoLookup</name>
+            <label>Look up product SEO URL</label>
+            <label lang="de-DE">Produkt-SEO-URL suchen</label>
+            <description>When enabled, the captured value from the regex is treated as a product number. The plugin looks up the product and redirects to its canonical SEO URL. The replacement pattern is ignored when this is active.</description>
+            <description lang="de-DE">Wenn aktiviert, wird der erfasste Wert aus dem Regex als Produktnummer behandelt. Das Plugin sucht das Produkt und leitet auf dessen kanonische SEO-URL weiter. Das Ersetzungsmuster wird bei aktiver Option ignoriert.</description>
+            <defaultValue>false</defaultValue>
+        </input-field>
     </card>
 
 </config>

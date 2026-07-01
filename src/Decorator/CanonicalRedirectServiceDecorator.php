@@ -2,6 +2,7 @@
 
 namespace Scop\PlatformRedirecter\Decorator;
 
+use Shopware\Core\Content\Product\ProductEntity;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
@@ -38,14 +39,24 @@ class CanonicalRedirectServiceDecorator extends CanonicalRedirectService
 
     private InAppPurchase $inAppPurchase;
 
-    public function __construct(CanonicalRedirectService $inner, SystemConfigService $configService, EntityRepository $redirectRepository, ExtensionDispatcher $extensionDispatcher, EntityRepository $seoUrlRepository, InAppPurchase $inAppPurchase)
-    {
+    private EntityRepository $productRepository;
+
+    public function __construct(
+        CanonicalRedirectService $inner,
+        SystemConfigService $configService,
+        EntityRepository $redirectRepository,
+        ExtensionDispatcher $extensionDispatcher,
+        EntityRepository $seoUrlRepository,
+        InAppPurchase $inAppPurchase,
+        EntityRepository $productRepository,
+    ) {
         parent::__construct($configService, $extensionDispatcher);
         $this->configService = $configService;
         $this->repository = $redirectRepository;
         $this->inner = $inner;
         $this->seoUrlRepository = $seoUrlRepository;
         $this->inAppPurchase = $inAppPurchase;
+        $this->productRepository = $productRepository;
     }
 
     private const IN_APP_PURCHASE_ID = 'scopPlatformRedirecterPremium';
@@ -228,6 +239,45 @@ class CanonicalRedirectServiceDecorator extends CanonicalRedirectService
         return new RedirectResponse($targetURL, $code);
     }
 
+    private function resolveProductSeoUrl(string $productNumber, ?string $salesChannelId, Context $context): ?string
+    {
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('productNumber', $productNumber));
+        $criteria->setLimit(1);
+
+        $product = $this->productRepository->search($criteria, $context)->first();
+        if ($product === null) {
+            return null;
+        }
+
+        $productId = $product->getId();
+
+        $seoCriteria = new Criteria();
+        $seoCriteria->addFilter(new EqualsFilter('routeName', 'frontend.detail.page'));
+        $seoCriteria->addFilter(new EqualsFilter('foreignKey', $productId));
+        $seoCriteria->addFilter(new EqualsFilter('isCanonical', true));
+        $seoCriteria->addFilter(new EqualsFilter('isDeleted', false));
+        if ($salesChannelId !== null) {
+            $seoCriteria->addFilter(new OrFilter([
+                new EqualsFilter('salesChannelId', $salesChannelId),
+                new EqualsFilter('salesChannelId', null),
+            ]));
+        }
+        $seoCriteria->setLimit(1);
+
+        $seoUrl = $this->seoUrlRepository->search($seoCriteria, $context)->first();
+        if ($seoUrl === null) {
+            return null;
+        }
+
+        $path = $seoUrl->getSeoPathInfo();
+        if ($path === null || $path === '') {
+            return null;
+        }
+
+        return '/' . ltrim($path, '/');
+    }
+
     private function getRegexFallbackRedirect(Request $request): ?RedirectResponse
     {
         if (!$this->configService->getBool('ScopPlatformRedirecter.config.regexFallbackEnabled')) {
@@ -235,23 +285,39 @@ class CanonicalRedirectServiceDecorator extends CanonicalRedirectService
         }
 
         $pattern = $this->configService->getString('ScopPlatformRedirecter.config.regexFallbackPattern');
-        $replacement = $this->configService->getString('ScopPlatformRedirecter.config.regexFallbackReplacement');
         $httpCode = $this->configService->getInt('ScopPlatformRedirecter.config.regexFallbackHttpCode');
 
-        if ($pattern === '' || $replacement === '') {
+        if ($pattern === '') {
             return null;
         }
 
         $requestUri = (string) $request->get('sw-original-request-uri');
-
         $delimiter = '@';
         $regex = $delimiter . $pattern . $delimiter;
 
         try {
-            if (!preg_match($regex, $requestUri)) {
+            if (!preg_match($regex, $requestUri, $matches)) {
                 return null;
             }
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
+            return null;
+        }
+
+        if ($this->configService->getBool('ScopPlatformRedirecter.config.regexFallbackUseSeoLookup')) {
+            if (!isset($matches[1]) || $matches[1] === '') {
+                return null;
+            }
+            $salesChannelId = $request->get('sw-sales-channel-id');
+            $context = Context::createDefaultContext();
+            $targetUrl = $this->resolveProductSeoUrl($matches[1], $salesChannelId, $context);
+            if ($targetUrl === null) {
+                return null;
+            }
+            return new RedirectResponse($targetUrl, $httpCode);
+        }
+
+        $replacement = $this->configService->getString('ScopPlatformRedirecter.config.regexFallbackReplacement');
+        if ($replacement === '') {
             return null;
         }
 

@@ -16,6 +16,7 @@
             <argument type="service" id="Shopware\Core\Framework\Extensions\ExtensionDispatcher"/>
             <argument type="service" id="seo_url.repository"/>
             <argument type="service" id="Shopware\Core\Framework\Store\InAppPurchase"/>
+            <argument type="service" id="product.repository" key="$productRepository"/>
         </service>
 
         <service id="Scop\PlatformRedirecter\Subscriber\TargetEntityFreezeSubscriber">

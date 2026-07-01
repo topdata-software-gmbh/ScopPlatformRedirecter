@@ -3,7 +3,8 @@ filename: "_ai/backlog/active/260701_1730__IMPLEMENTATION_PLAN__fix-regex-seo-lo
 title: "Fix: Add product SEO URL lookup to regex fallback"
 createdAt: 2026-07-01 17:30
 updatedAt: 2026-07-01 17:30
-status: draft
+status: completed
+completedAt: 2026-07-01 22:35
 priority: critical
 tags: [hotfix, regex, seo-url, product-lookup]
 estimatedComplexity: simple
