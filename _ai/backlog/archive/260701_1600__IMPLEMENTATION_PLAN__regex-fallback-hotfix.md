@@ -3,7 +3,8 @@ filename: "_ai/backlog/active/260701_1600__IMPLEMENTATION_PLAN__regex-fallback-h
 title: "Phase 1: Configurable regex fallback for legacy URL patterns (hotfix)"
 createdAt: 2026-07-01 16:00
 updatedAt: 2026-07-01 16:00
-status: draft
+status: completed
+completedAt: 2026-07-01 18:00
 priority: critical
 tags: [hotfix, regex, redirect, iShop-legacy]
 estimatedComplexity: simple

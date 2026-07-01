@@ -55,4 +55,55 @@
         </input-field>
     </card>
 
+    <card>
+        <title>Regex Fallback</title>
+        <title lang="de-DE">Regex-Fallback</title>
+
+        <input-field type="bool">
+            <name>regexFallbackEnabled</name>
+            <label>Enable regex fallback for unrecognized URLs</label>
+            <label lang="de-DE">Regex-Fallback für nicht erkannte URLs aktivieren</label>
+            <description>When enabled, the plugin will check the request URI against the regex pattern below if no database redirect matches.</description>
+            <description lang="de-DE">Wenn aktiviert, wird die angefragte URI gegen das untenstehende Regex-Muster geprüft, falls kein Datenbank-Redirect gefunden wurde.</description>
+            <defaultValue>false</defaultValue>
+        </input-field>
+
+        <input-field type="text">
+            <name>regexFallbackPattern</name>
+            <label>Regex pattern</label>
+            <label lang="de-DE">Regex-Muster</label>
+            <description>The regex pattern applied to the request path. Use capture groups for replacements. Example: ^\\/p\\/[^\\/]+\\/(\\d+)p\\/?$</description>
+            <description lang="de-DE">Das Regex-Muster wird auf den Anfragepfad angewendet. Verwenden Sie Capture-Gruppen für Ersetzungen. Beispiel: ^\\/p\\/[^\\/]+\\/(\\d+)p\\/?$</description>
+            <defaultValue></defaultValue>
+        </input-field>
+
+        <input-field type="text">
+            <name>regexFallbackReplacement</name>
+            <label>Replacement pattern</label>
+            <label lang="de-DE">Ersetzungsmuster</label>
+            <description>The replacement string using $1, $2, etc. from capture groups. Example: /detail/$1</description>
+            <description lang="de-DE">Die Ersetzungszeichenfolge mit $1, $2, etc. aus den Capture-Gruppen. Beispiel: /detail/$1</description>
+            <defaultValue></defaultValue>
+        </input-field>
+
+        <input-field type="int">
+            <name>regexFallbackHttpCode</name>
+            <label>HTTP redirect code</label>
+            <label lang="de-DE">HTTP-Weiterleitungscode</label>
+            <description>HTTP status code for the redirect (301 or 302).</description>
+            <description lang="de-DE">HTTP-Statuscode für die Weiterleitung (301 oder 302).</description>
+            <defaultValue>301</defaultValue>
+            <options>
+                <option>
+                    <id>301</id>
+                    <name>301 Moved Permanently</name>
+                </option>
+                <option>
+                    <id>302</id>
+                    <name>302 Found (Temporary)</name>
+                </option>
+            </options>
+        </input-field>
+    </card>
+
 </config>

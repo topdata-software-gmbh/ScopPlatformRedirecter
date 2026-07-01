@@ -154,6 +154,10 @@
 
 - Added automatic redirect creation when products are deleted, with configurable HTTP status code (Premium feature)
 
+# v4.6.1
+
+- Added configurable regex fallback for unrecognized URL patterns (configurable in plugin settings)
+
 # v4.5.0
 
 - Redirects can now be linked to a product or category; the target URL is resolved dynamically from the current SEO URL of the linked entity (Premium feature)

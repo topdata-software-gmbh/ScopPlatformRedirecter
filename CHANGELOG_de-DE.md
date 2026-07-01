@@ -154,6 +154,10 @@
 
 - Automatische Erstellung von Weiterleitungen beim Löschen von Produkten hinzugefügt, mit konfigurierbarem HTTP-Statuscode (Premium-Funktion)
 
+# v4.6.1
+
+- Konfigurierbarer Regex-Fallback für nicht erkannte URL-Muster hinzugefügt (in den Plugin-Einstellungen konfigurierbar)
+
 # v4.5.0
 
 - Weiterleitungen können jetzt mit einem Produkt oder einer Kategorie verknüpft werden; die Ziel-URL wird dynamisch aus der aktuellen SEO-URL der verknüpften Entität aufgelöst (Premium-Funktion)

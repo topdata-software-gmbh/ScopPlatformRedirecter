@@ -167,10 +167,18 @@ class CanonicalRedirectServiceDecorator extends CanonicalRedirectService
                 
                 // No Redirect found for this URL, do nothing
                 if ($redirects->count() === 0) {
+                    $regexRedirect = $this->getRegexFallbackRedirect($request);
+                    if ($regexRedirect !== null) {
+                        return $regexRedirect;
+                    }
                     return $this->inner->getRedirect($request);
                 }
             } else {
                 // No Redirect found for this URL, do nothing
+                $regexRedirect = $this->getRegexFallbackRedirect($request);
+                if ($regexRedirect !== null) {
+                    return $regexRedirect;
+                }
                 return $this->inner->getRedirect($request);
             }
         }
@@ -218,6 +226,46 @@ class CanonicalRedirectServiceDecorator extends CanonicalRedirectService
             }
         }
         return new RedirectResponse($targetURL, $code);
+    }
+
+    private function getRegexFallbackRedirect(Request $request): ?RedirectResponse
+    {
+        if (!$this->configService->getBool('ScopPlatformRedirecter.config.regexFallbackEnabled')) {
+            return null;
+        }
+
+        $pattern = $this->configService->getString('ScopPlatformRedirecter.config.regexFallbackPattern');
+        $replacement = $this->configService->getString('ScopPlatformRedirecter.config.regexFallbackReplacement');
+        $httpCode = $this->configService->getInt('ScopPlatformRedirecter.config.regexFallbackHttpCode');
+
+        if ($pattern === '' || $replacement === '') {
+            return null;
+        }
+
+        $requestUri = (string) $request->get('sw-original-request-uri');
+
+        $delimiter = '@';
+        $regex = $delimiter . $pattern . $delimiter;
+
+        try {
+            if (!preg_match($regex, $requestUri)) {
+                return null;
+            }
+        } catch (\Throwable $e) {
+            return null;
+        }
+
+        $targetUrl = preg_replace($regex, $replacement, $requestUri);
+
+        if ($targetUrl === null || $targetUrl === '' || $targetUrl === $requestUri) {
+            return null;
+        }
+
+        if (strpos($targetUrl, '/') !== 0) {
+            $targetUrl = '/' . $targetUrl;
+        }
+
+        return new RedirectResponse($targetUrl, $httpCode);
     }
 
 }
