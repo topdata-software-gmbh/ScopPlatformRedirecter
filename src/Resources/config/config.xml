@@ -49,8 +49,8 @@
             <name>lowercaseUrlRedirect</name>
             <label>Redirect uppercase URLs to lowercase</label>
             <label lang="de-DE">Grossbuchstaben-URLs auf Kleinbuchstaben umleiten</label>
-            <description>When enabled, URLs with uppercase letters are automatically redirected to their lowercase version (301) if a matching SEO URL exists.</description>
-            <description lang="de-DE">Wenn aktiviert, werden URLs mit Grossbuchstaben automatisch auf die Kleinbuchstaben-Version weitergeleitet (301), falls eine passende SEO-URL existiert.</description>
+            <helpText>When enabled, URLs with uppercase letters are automatically redirected to their lowercase version (301) if a matching SEO URL exists.</helpText>
+            <description lang="de-DE">Wenn aktiviert, werden URLs mit Grossbuchstaben automatisch auf die Kleinbuchstaben-Version weitergeleitet (301), falls eine passende SEO-URL existiert.</helpText>
             <defaultValue>true</defaultValue>
         </input-field>
     </card>
@@ -63,8 +63,8 @@
             <name>regexFallbackEnabled</name>
             <label>Enable regex fallback for unrecognized URLs</label>
             <label lang="de-DE">Regex-Fallback für nicht erkannte URLs aktivieren</label>
-            <description>When enabled, the plugin will check the request URI against the regex pattern below if no database redirect matches.</description>
-            <description lang="de-DE">Wenn aktiviert, wird die angefragte URI gegen das untenstehende Regex-Muster geprüft, falls kein Datenbank-Redirect gefunden wurde.</description>
+            <helpText>When enabled, the plugin will check the request URI against the regex pattern below if no database redirect matches.</helpText>
+            <description lang="de-DE">Wenn aktiviert, wird die angefragte URI gegen das untenstehende Regex-Muster geprüft, falls kein Datenbank-Redirect gefunden wurde.</helpText>
             <defaultValue>false</defaultValue>
         </input-field>
 
@@ -72,8 +72,8 @@
             <name>regexFallbackPattern</name>
             <label>Regex pattern</label>
             <label lang="de-DE">Regex-Muster</label>
-            <description>The regex pattern applied to the request path. Use capture groups for replacements. The first capture group (\\d+) is used for the SEO lookup feature. Example for iShop URLs: ^\\/p\\/[^\\/]+\\/(\\d+)p\\/?$ captures "1503" from "/p/permafix-abdeckfolien-transparent-270-cm-x-17-m/1503p/"</description>
-            <description lang="de-DE">Das Regex-Muster wird auf den Anfragepfad angewendet. Verwenden Sie Capture-Gruppen für Ersetzungen. Die erste Capture-Gruppe (\\d+) wird für die SEO-Suche verwendet. Beispiel für iShop-URLs: ^\\/p\\/[^\\/]+\\/(\\d+)p\\/?$ erfasst "1503" aus "/p/permafix-abdeckfolien-transparent-270-cm-x-17-m/1503p/"</description>
+            <helpText>The regex pattern applied to the request path. Use capture groups for replacements. The first capture group (\\d+) is used for the SEO lookup feature. Example for iShop URLs: ^\\/p\\/[^\\/]+\\/(\\d+)p\\/?$ captures "1503" from "/p/permafix-abdeckfolien-transparent-270-cm-x-17-m/1503p/"</helpText>
+            <description lang="de-DE">Das Regex-Muster wird auf den Anfragepfad angewendet. Verwenden Sie Capture-Gruppen für Ersetzungen. Die erste Capture-Gruppe (\\d+) wird für die SEO-Suche verwendet. Beispiel für iShop-URLs: ^\\/p\\/[^\\/]+\\/(\\d+)p\\/?$ erfasst "1503" aus "/p/permafix-abdeckfolien-transparent-270-cm-x-17-m/1503p/"</helpText>
             <defaultValue></defaultValue>
         </input-field>
 
@@ -81,8 +81,8 @@
             <name>regexFallbackReplacement</name>
             <label>Replacement pattern</label>
             <label lang="de-DE">Ersetzungsmuster</label>
-            <description>The replacement string using $1, $2, etc. from capture groups. Used only when "Look up product SEO URL" is disabled. Example: /detail/$1 redirects to /detail/1503. When SEO lookup is enabled, this field is ignored.</description>
-            <description lang="de-DE">Die Ersetzungszeichenfolge mit $1, $2, etc. aus den Capture-Gruppen. Wird nur verwendet, wenn "Produkt-SEO-URL suchen" deaktiviert ist. Beispiel: /detail/$1 leitet auf /detail/1503 weiter. Wenn die SEO-Suche aktiviert ist, wird dieses Feld ignoriert.</description>
+            <helpText>The replacement string using $1, $2, etc. from capture groups. Used only when "Look up product SEO URL" is disabled. Example: /detail/$1 redirects to /detail/1503. When SEO lookup is enabled, this field is ignored.</helpText>
+            <description lang="de-DE">Die Ersetzungszeichenfolge mit $1, $2, etc. aus den Capture-Gruppen. Wird nur verwendet, wenn "Produkt-SEO-URL suchen" deaktiviert ist. Beispiel: /detail/$1 leitet auf /detail/1503 weiter. Wenn die SEO-Suche aktiviert ist, wird dieses Feld ignoriert.</helpText>
             <defaultValue></defaultValue>
         </input-field>
 
@@ -90,8 +90,8 @@
             <name>regexFallbackHttpCode</name>
             <label>HTTP redirect code</label>
             <label lang="de-DE">HTTP-Weiterleitungscode</label>
-            <description>HTTP status code for the redirect (301 or 302).</description>
-            <description lang="de-DE">HTTP-Statuscode für die Weiterleitung (301 oder 302).</description>
+            <helpText>HTTP status code for the redirect (301 or 302).</helpText>
+            <description lang="de-DE">HTTP-Statuscode für die Weiterleitung (301 oder 302).</helpText>
             <defaultValue>301</defaultValue>
             <options>
                 <option>
@@ -109,8 +109,8 @@
             <name>regexFallbackUseSeoLookup</name>
             <label>Look up product SEO URL</label>
             <label lang="de-DE">Produkt-SEO-URL suchen</label>
-            <description>When enabled, the captured value from capture group 1 is treated as a product number (SKU). The plugin looks up the product in the database and redirects to its current canonical SEO URL. This is useful for iShop URLs like /p/any-product-name/1503p/ — it extracts "1503", finds the product, and redirects to /correct-product-name/1503. The replacement pattern is ignored when this is active.</description>
-            <description lang="de-DE">Wenn aktiviert, wird der Wert aus Capture-Gruppe 1 als Produktnummer (SKU) behandelt. Das Plugin sucht das Produkt in der Datenbank und leitet auf die aktuelle kanonische SEO-URL weiter. Nützlich für iShop-URLs wie /p/irgendein-produktname/1503p/ — es extrahiert "1503", findet das Produkt und leitet auf /korrekter-produktname/1503 weiter. Das Ersetzungsmuster wird bei aktiver Option ignoriert.</description>
+            <helpText>When enabled, the captured value from capture group 1 is treated as a product number (SKU). The plugin looks up the product in the database and redirects to its current canonical SEO URL. This is useful for iShop URLs like /p/any-product-name/1503p/ — it extracts "1503", finds the product, and redirects to /correct-product-name/1503. The replacement pattern is ignored when this is active.</helpText>
+            <description lang="de-DE">Wenn aktiviert, wird der Wert aus Capture-Gruppe 1 als Produktnummer (SKU) behandelt. Das Plugin sucht das Produkt in der Datenbank und leitet auf die aktuelle kanonische SEO-URL weiter. Nützlich für iShop-URLs wie /p/irgendein-produktname/1503p/ — es extrahiert "1503", findet das Produkt und leitet auf /korrekter-produktname/1503 weiter. Das Ersetzungsmuster wird bei aktiver Option ignoriert.</helpText>
             <defaultValue>false</defaultValue>
         </input-field>
     </card>
